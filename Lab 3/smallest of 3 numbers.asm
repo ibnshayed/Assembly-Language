@@ -1,0 +1,100 @@
+.MODEL SMALL
+.STACK 100H
+.DATA
+
+NUM1 DB ?
+NUM2 DB ? 
+NUM3 DB ?
+
+
+
+.CODE
+
+MAIN PROC
+    
+    
+    ;INITIALIZE DATA SEGMENT
+    MOV AX, @DATA
+    MOV DS, AX 
+    
+    
+    ;INPUT 1ST NUMBER
+    MOV AH,1
+    INT 21H
+    MOV NUM1, AL
+    SUB NUM1, 30H      ;Convert from ASCII to number
+    
+    
+    ;INPUT 2ND NUMBER
+    INT 21H
+    MOV NUM2, AL
+    SUB NUM2, 30H   ; Convert from ASCII to Number
+    
+    ;INPUT 3RD NUMBER
+    INT 21H
+    MOV NUM3, AL
+    SUB NUM3, 30H   ; Convert from ASCII to Number
+    
+    
+    ;COMPARE A WITH B
+    MOV AL, NUM1
+    CMP AL, NUM2
+    JGE B_LESS_THAN_A
+    
+    
+    ;COMPARE A WITH C
+    CMP AL,NUM3
+    JGE SMALLEST_C
+     
+    JMP SMALLEST_A
+    
+    
+    ;COMPARE B WITH C
+    B_LESS_THAN_A:  
+    MOV AL,NUM2
+    CMP AL,NUM3
+    JGE SMALLEST_C:
+    
+    JMP SMALLEST_B: 
+    
+    
+    ;PRINT THE SMALLEST NUMBER C
+    SMALLEST_C:
+    MOV AH,2
+    MOV DL, NUM3
+    ADD DL, 30H ;CONVERT FROM NUMBER TO ASCII
+    INT 21H
+    
+    JMP END_IF 
+    
+    ;PRINT THE SMALLEST NUMBER B
+    SMALLEST_B:
+    MOV AH,2
+    MOV DL, NUM2
+    ADD DL, 30H ;CONVERT FROM NUMBER TO ASCII
+    INT 21H
+    
+    JMP END_IF
+    
+    ;PRINT THE SMALLEST NUMBER A
+    SMALLEST_A:
+    MOV AH,2
+    MOV DL, NUM1
+    ADD DL, 30H ;CONVERT FROM NUMBER TO ASCII
+    INT 21H
+    
+    
+    
+    END_IF:
+    ;RETURNING CONTROL TO OS
+    MOV AH,4CH
+    INT 21H
+    
+    MAIN ENDP
+END MAIN
+    
+    
+    
+    
+   
+    

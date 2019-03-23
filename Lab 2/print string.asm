@@ -1,0 +1,26 @@
+.MODEL SMALL
+.STACK 100H
+
+.DATA
+
+MSG1 DB 'First Message $'
+
+
+
+MAIN PROC
+    
+    ;INITIALIZE DATA SEGMENT
+    MOV AX, @DATA
+    MOV DS, AX
+    
+    ;OUTPUT STRING 
+    LEA DX,MSG1
+    MOV AH,9
+    INT 21H   
+    
+    ;RETURNING CONTROL TO OS
+    MOV AH,4CH
+    INT 21H
+    
+    MAIN ENDP
+END MAIN
